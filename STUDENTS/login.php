@@ -41,12 +41,12 @@ include('include/header.php');
 					</div>
 					 <div class="form-group">
 						<div class="col-md-12 control">
-							<!--<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+							<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
 								Don't have an account! 
 							<a href="register.php">
 								Register 
 							</a>Here. 
-							</div>-->
+							</div>
 						</div>
 					</div>    	
 				</form>   
