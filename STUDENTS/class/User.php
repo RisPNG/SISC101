@@ -143,7 +143,7 @@ class User extends Dbconfig
 			} else {
 				$authtoken = $this->getAuthtoken($_POST["email"]);
 				$mobile = isset($_POST["mobile"]) ? $_POST["mobile"] : '';
-				$insertQuery = "INSERT INTO " . $this->userTable . " (first_name, last_name, email, password, authtoken, mobile) VALUES ('" . $_POST["firstname"] . "','" . $_POST["lastname"] . "','" . $_POST["email"] . "','" . md5($_POST["passwd"]) . "','" . $authtoken . "','" . $mobile . "')";
+				$insertQuery = "INSERT INTO " . $this->userTable . " (first_name, last_name, email, password, authtoken, mobile, designation) VALUES ('" . $_POST["firstname"] . "','" . $_POST["lastname"] . "','" . $_POST["email"] . "','" . md5($_POST["passwd"]) . "','" . $authtoken . "','" . $mobile . "', '4')";
 				$userSaved = mysqli_query($this->dbConnect, $insertQuery);
 				if ($userSaved) {
 					$link = "<a href='../verify.php?authtoken=" . $authtoken . "'>Verify Email</a>";
