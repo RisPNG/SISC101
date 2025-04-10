@@ -285,7 +285,7 @@ for ($i = 0; $i <= 2; $i++) {
 					<tr>
 						<td rowspan="3" colspan="2">&nbsp;Assessment</td>
 						<td colspan="2">&nbsp;Homework</td>
-						<td align="center"><?php echo $userGrades['per_homework'] / 2; ?>%</td>
+						<td align="center"><?php echo ($userGrades['per_homework'] ?? 0) / 2; ?>%</td>
 						<td align="center"><?php echo $userGrades['per_homework']; ?>%</td>
 						<td align="center"><?php echo $userGrades['sc_homework']; ?>%</td>
 						<td align="center"><?php if ($userGrades['sc_homework'] < $userGrades['per_homework'] / 2) echo 'Fail';
