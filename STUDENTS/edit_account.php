@@ -1,27 +1,27 @@
 <?php 
-include('class/User.php');
-$user = new User();
-$user->loginStatus();
-$message = '';
-$message = $user->editAccount();
-$userDetail = $user->getUser();	//formally userDetails
-include('include/header.php');
+	include('class/User.php');
+	$user = new User();
+	$user->loginStatus();
+	$message = '';
+	$message = $user->editAccount();
+	$userDetail = $user->getUser_Student();	// formerly getUser()
+	include('include/header.php');
 ?>
 <title>Student Management System</title>
 <?php include('include/container.php');?>
-<div class="container contact">	
-	<h2>Student Management System</h2>	
-	<?php include('menu.php');?>				
+<div class="container contact"> 
+	<h2>Student Management System</h2> 
+	<?php include('menu.php');?> 				
 	<div>
 		<div class="panel">
 			<div class="panel-heading">
-				<div class="panel-title">Edit Account Details</div>				
+				<div class="panel-title">Edit Account Details</div>                
 			</div>  
 			<div class="panel-body col-md-7">
-				<form class="form-horizontal" role="form" method="POST" action="" enctype="multipart/form-data">				
+				<form class="form-horizontal" role="form" method="POST" action="" enctype="multipart/form-data">                
 					<?php if($message != '') { ?>
 						<div id="login-alert" class="alert alert-danger col-sm-12"><?php echo $message; ?></div>                            
-					<?php } ?>	
+					<?php } ?>
 					<div class="form-group">
 						<label for="firstname" class="col-md-3 control-label">First Name*</label>
 						<div class="col-md-9">
@@ -33,32 +33,26 @@ include('include/header.php');
 						<div class="col-md-9">
 							<input type="text" class="form-control" name="lastname" placeholder="Last Name" value="<?php echo $userDetail['last_name'];?>" >
 						</div>
-					</div>					
+					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-3 control-label">Email*</label>
 						<div class="col-md-9">
 							<input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo $userDetail['email'];?>" required>
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-3 control-label">Mobile</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" name="mobile" placeholder="Mobile" value="<?php echo $userDetail['mobile'];?>" >
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="lastname" class="col-md-3 control-label">Designation</label>
 						<div class="col-md-9">
 							<input type="text" class="form-control" name="designationName" placeholder="Designation" value="<?php echo $userDetail['designation_name'];?>" readonly>
 							<input type="hidden" class="form-control" name="designation" placeholder="Designation" value="<?php echo $userDetail['designation_id'];?>" readonly>
-							<!--
-							<select name="designation" id="designation" class="form-control" required>
-								<option value="">Select Designation</option>
-								<?php //echo $user->getDesignationOptions(); ?>	
-							</select>
-							-->
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="gender" class="col-md-3 control-label">Gender</label>
 						<div class="col-md-9">
@@ -69,33 +63,32 @@ include('include/header.php');
 								<input type="radio" name="gender" value="female" <?php if($userDetail['gender'] == 'female') { echo 'checked'; } ?> required>Female
 							</label>
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="password" class="col-md-3 control-label">Password</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" name="passwd" placeholder="Password" value="">
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<label for="password" class="col-md-3 control-label">Confirm Password</label>
 						<div class="col-md-9">
 							<input type="password" class="form-control" name="cpasswd" placeholder="Confirm Password" value="">
 						</div>
-					</div>			
+					</div>
 					<div class="form-group">
 						<label for="photo" class="col-md-3 control-label">Photo</label>
 						<div class="col-md-9">
 							<input type="file" class="form-control" id="photo" name="photo" placeholder="Teacher photo">
 						</div>
-					</div>	
-					<div class="form-group">						                                  
+					</div>
+					<div class="form-group">                                          
 						<div class="col-md-offset-3 col-md-9">
-							<button id="btn-signup" type="submit" name="update" value="update_account" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Save Changes</button>			
+							<button id="btn-signup" type="submit" name="update" value="update_account" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Save Changes</button>            
 						</div>
-					</div>							
+					</div>                           
 				</form>
 			 </div>
 		</div>
-	</div>	
-</div>	
-<?php include('include/footer.php');?>
+	</div> 
+	<?php include('include/footer.php');?>
