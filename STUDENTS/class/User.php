@@ -6,8 +6,8 @@ include_once(__DIR__ . "/../../config.php");
 
 class User extends Dbconfig
 {
-    // Add a property for user table name
-    private $userTable = 'user';
+    // Change access level to protected
+    protected $userTable = 'user';
 
     private $no;
 
