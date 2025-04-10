@@ -25,42 +25,42 @@
 					<div class="form-group">
 						<label for="firstname" class="col-md-3 control-label">First Name*</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="firstname" placeholder="First Name" value="<?php echo $userDetail['first_name'];?>" >
+							<input type="text" class="form-control" name="firstname" placeholder="First Name" value="<?php echo $userDetail['first_name'] ?? ''; ?>" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="lastname" class="col-md-3 control-label">Last Name</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="lastname" placeholder="Last Name" value="<?php echo $userDetail['last_name'];?>" >
+							<input type="text" class="form-control" name="lastname" placeholder="Last Name" value="<?php echo $userDetail['last_name'] ?? ''; ?>" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-3 control-label">Email*</label>
 						<div class="col-md-9">
-							<input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo $userDetail['email'];?>" required>
+							<input type="email" class="form-control" name="email" placeholder="Email Address" value="<?php echo $userDetail['email'] ?? ''; ?>" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-3 control-label">Mobile</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="mobile" placeholder="Mobile" value="<?php echo $userDetail['mobile'];?>" >
+							<input type="text" class="form-control" name="mobile" placeholder="Mobile" value="<?php echo $userDetail['mobile'] ?? ''; ?>" >
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="lastname" class="col-md-3 control-label">Designation</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="designationName" placeholder="Designation" value="<?php echo $userDetail['designation_name'];?>" readonly>
-							<input type="hidden" class="form-control" name="designation" placeholder="Designation" value="<?php echo $userDetail['designation_id'];?>" readonly>
+							<input type="text" class="form-control" name="designationName" placeholder="Designation" value="<?php echo $userDetail['designation_name'] ?? ''; ?>" readonly>
+							<input type="hidden" class="form-control" name="designation" placeholder="Designation" value="<?php echo $userDetail['designation_id'] ?? ''; ?>" readonly>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="gender" class="col-md-3 control-label">Gender</label>
 						<div class="col-md-9">
 							<label class="radio-inline">
-								<input type="radio" name="gender" value="male" <?php if($userDetail['gender'] == 'male') { echo 'checked'; } ?> required>Male
+								<input type="radio" name="gender" value="male" <?php if(($userDetail['gender'] ?? '') == 'male') { echo 'checked'; } ?> required>Male
 							</label>;
 							<label class="radio-inline">
-								<input type="radio" name="gender" value="female" <?php if($userDetail['gender'] == 'female') { echo 'checked'; } ?> required>Female
+								<input type="radio" name="gender" value="female" <?php if(($userDetail['gender'] ?? '') == 'female') { echo 'checked'; } ?> required>Female
 							</label>
 						</div>
 					</div>
