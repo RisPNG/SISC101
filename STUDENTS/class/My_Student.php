@@ -187,12 +187,16 @@ where id=(select class from sms_students where id=(select id from user WHERE id=
 			$kelasData[] = $kelasRows;
 		}
 		$output = array(
-			"draw"				=>	intval($_POST["draw"]),
-			"recordsTotal"  	=>  $numRows,
-			"recordsFiltered" 	=> 	$numRows,
-			"data"    			=> 	$kelasData
+			"draw"            => intval($_POST["draw"]),
+			"recordsTotal"    => $numRows,
+			"recordsFiltered" => $numRows,
+			"data"            => $kelasData
 		);
+		
+		header("Content-Type: application/json");
 		echo json_encode($output);
+		exit;
+		
 	}
 	
 	
