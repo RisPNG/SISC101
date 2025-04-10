@@ -49,6 +49,17 @@ class User extends Dbconfig
         $numRows = mysqli_num_rows($result);
         return $numRows;
     }
+    public function totalUsers($status = '')
+    {
+        $sql = "SELECT COUNT(*) as total FROM " . $this->userTable;
+        if($status !== ''){
+            $statusEscaped = mysqli_real_escape_string($this->dbConnect, $status);
+            $sql .= " WHERE status = '" . $statusEscaped . "'";
+        }
+        $result = mysqli_query($this->dbConnect, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'] ?? 0;
+    }
     public function loginStatus()
     {
         if (empty($_SESSION["userid"])) {
