@@ -117,14 +117,15 @@ on c.section=i.section_id
 where id=(select class from sms_students where id=(select id from user WHERE id=".$_SESSION['adminUserid'].")";	
 */
 
-		if(!empty($_POST["search"]["value"])){
-			$sqlQuery .= '(id LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR first_name LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR last_name LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR designation LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR status LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR mobile LIKE "%'.$_POST["search"]["value"].'%") ';			
-		}
+if(!empty($_POST["search"]["value"])){
+    $search = $_POST["search"]["value"];
+    $sqlQuery .= " AND (id LIKE '%$search%' ";
+    $sqlQuery .= " OR first_name LIKE '%$search%' ";
+    $sqlQuery .= " OR last_name LIKE '%$search%' ";
+    $sqlQuery .= " OR designation LIKE '%$search%' ";
+    $sqlQuery .= " OR status LIKE '%$search%' ";
+    $sqlQuery .= " OR mobile LIKE '%$search%') ";
+}
 
 
 		if(!empty($_POST["order"])){
