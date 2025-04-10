@@ -559,7 +559,7 @@ class User extends Dbconfig
             inner join sis_programs as pro
                 on pro.program_id=prosub.program_id
             WHERE u.id ='" . $_SESSION["userid"] . "' 
-                AND cls.id='" . $_POST["selClass"] . "'";
+                AND cls.id='" . (isset($_POST["selClass"]) ? $_POST["selClass"] : "") . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$userReport = mysqli_fetch_assoc($result);
 		return $userReport;
@@ -570,7 +570,7 @@ class User extends Dbconfig
 		$sqlQuery = "SELECT * FROM sis_student_grades as sg
                     inner join sis_user_student as usrstu
                     on usrstu.student_id=sg.student_id
-                    WHERE usrstu.user_id ='" . $_SESSION["userid"] . "' AND class_id='" . $_POST["selClass"] . "'";
+                    WHERE usrstu.user_id ='" . $_SESSION["userid"] . "' AND class_id='" . (isset($_POST["selClass"]) ? $_POST["selClass"] : "") . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$userGrades = mysqli_fetch_assoc($result);
 		return $userGrades;
