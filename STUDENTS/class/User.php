@@ -6,11 +6,8 @@ include_once(__DIR__ . "/../../config.php");
 
 class User extends Dbconfig
 {
-    //protected $hostName;    //hostName is local name, from config.php is serverName
-    //protected $userName;
-    //protected $password;
-    //protected $dbName;
-    //private $userTable = 'user';
+    // Add a property for user table name
+    private $userTable = 'user';
 
     private $no;
 
@@ -191,7 +188,13 @@ class User extends Dbconfig
         }
         return $verifyStatus;
     }
-    
+    public function getUser_Student()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        $sql = "SELECT * FROM " . $this->userTable . " WHERE id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        return mysqli_fetch_assoc($result);
+    }
     public function editAccount()
     {
         $fileName = '';
