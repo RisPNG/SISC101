@@ -5,6 +5,16 @@ $user->loginStatus();
 //$userStudent = $user->getUser_Student();	//formally userDetails
 $userReport = $user->getUser_Report();
 $userGrades = $user->getUser_Grades();
+if (!$userGrades) {
+    $userGrades = array(
+         'sc_homework'       => 0,
+         'sc_participation'  => 0,
+         'sc_exam'           => 0,
+         'sc_project'        => 0,
+         's2_exam'           => 0,
+         's3_exam'           => 0,
+    );
+}
 include('include/header.php');
 ?>
 <title>Student Information System</title>
