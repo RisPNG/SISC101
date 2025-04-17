@@ -466,5 +466,87 @@ class User extends Dbconfig
         }
         return $message;
     }
+
+    /*****************Admin User methods****************/
+    public function listUser() {
+        // formerly getUserList
+        $sqlQuery = "SELECT * FROM " . $this->userTable . " ";
+        if (!empty($_POST["search"]["value"])) {
+            $sqlQuery .= ' OR id LIKE "%'.$_POST["search"]["value"].'%" ';
+            $sqlQuery .= ' OR first_name LIKE "%'.$_POST["search"]["value"].'%" ';
+            $sqlQuery .= ' OR last_name LIKE "%'.$_POST["search"]["value"].'%" ';
+            $sqlQuery .= ' OR designation LIKE "%'.$_POST["search"]["value"].'%" ';
+            $sqlQuery .= ' OR status LIKE "%'.$_POST["search"]["value"].'%" ';
+            $sqlQuery .= ' OR mobile LIKE "%'.$_POST["search"]["value"].'%" ';
+        }
+        if (!empty($_POST["order"])) {
+            $sqlQuery .= 'ORDER BY ' . $_POST['order'][0]['column'] . ' ' . $_POST['order'][0]['dir'] . ' ';
+        } else {
+            $sqlQuery .= 'ORDER BY id ASC ';
+        }
+        if ($_POST["length"] != -1) {
+            $sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+        }
+        $result = mysqli_query($this->dbConnect, $sqlQuery);
+        $numRows = mysqli_num_rows($result);
+        $userData = array();
+        $no = 1;
+        while ($users = mysqli_fetch_assoc($result)) {
+            $userRows = array();
+            $userRows[] = $no; $no++;
+            $status = '';
+            if ($users['status'] == 'active') {
+                $status = '<span class="label label-success">Active</span>';
+            } elseif ($users['status'] == 'pending') {
+                $status = '<span class="label label-warning">Inactive</span>';
+            } elseif ($users['status'] == 'deleted') {
+                $status = '<span class="label label-danger">Deleted</span>';
+            }
+            $userRows[] = $users['id'];
+            $userRows[] = ucfirst($users['first_name'] . " " . $users['last_name']);
+            $userRows[] = $users['gender'];
+            $userRows[] = $users['email'];
+            $userRows[] = $users['mobile'];
+            $userRows[] = $users['type'];
+            $userRows[] = $status;
+            $userRows[] = '<button type="button" name="update" id="' . $users["id"] . '" class="btn btn-warning btn-xs update">Update</button>';
+            $userRows[] = '<button type="button" name="delete" id="' . $users["id"] . '" class="btn btn-danger btn-xs delete">Delete</button>';
+            $userData[] = $userRows;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $numRows,
+            "recordsFiltered" => $numRows,
+            "data" => $userData
+        );
+        echo json_encode($output);
+    }
+    public function addUser() {
+        if (!empty($_POST["email"])) {
+            $authtoken = $this->getAuthtoken($_POST['email']);
+            $insertQuery = "INSERT INTO " . $this->userTable . " (first_name, last_name, email, gender, password, mobile, designation, type, status, authtoken)\n                VALUES ('" . $_POST["firstname"] . "', '" . $_POST["lastname"] . "', '" . $_POST["email"] . "', '" . $_POST["gender"] . "', '" . md5($_POST["password"]) . "', '" . $_POST["mobile"] . "', '3', 'general', 'active', '" . $authtoken . "')";
+            mysqli_query($this->dbConnect, $insertQuery);
+        }
+    }
+    public function updateUser() {
+        if (!empty($_POST['userid'])) {
+            $updateQuery = "UPDATE " . $this->userTable . "\n                SET first_name = '" . $_POST["firstname"] . "', last_name = '" . $_POST["lastname"] . "', email = '" . $_POST["email"] . "', mobile = '" . $_POST["mobile"] . "', gender = '" . $_POST["gender"] . "', status = '" . $_POST["status"] . "'\n                WHERE id = '" . $_POST["userid"] . "'";
+            mysqli_query($this->dbConnect, $updateQuery);
+        }
+    }
+    public function deleteUser() {
+        if (!empty($_POST["userid"])) {
+            $sqlUpdate = "UPDATE " . $this->userTable . " SET status = 'deleted' WHERE id = '" . $_POST["userid"] . "'";
+            mysqli_query($this->dbConnect, $sqlUpdate);
+        }
+    }
+    public function getUserDetails() {
+        if (!empty($_POST["userid"])) {
+            $sqlQuery = "SELECT * FROM " . $this->userTable . " WHERE id = '" . $_POST["userid"] . "'";
+            $result = mysqli_query($this->dbConnect, $sqlQuery);
+            $userDetails = mysqli_fetch_assoc($result);
+            echo json_encode($userDetails);
+        }
+    }
 }
 ?>
