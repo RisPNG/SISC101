@@ -4,7 +4,7 @@ session_start();
 	//echo $_SERVER['DOCUMENT_ROOT'];
 	$docroot="C:\shared\SIS1.01";	//$path = $_SERVER['DOCUMENT_ROOT'];
 	$path= "\config.php";
-	include_once($docroot.$path);
+		require_once __DIR__ . '/../include/config.php';
 	
 class Kelas extends Dbconfig {	
 /*	
