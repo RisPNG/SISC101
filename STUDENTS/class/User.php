@@ -206,6 +206,112 @@ class User extends Dbconfig
         $result = mysqli_query($this->dbConnect, $sql);
         return mysqli_fetch_assoc($result);
     }
+
+    // Populate class selection options for the student
+    public function getSubjectOptions()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        // Fetch linked student_id
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) == 0) {
+            return '';
+        }
+        $row = mysqli_fetch_assoc($result);
+        $studentID = $row['student_id'];
+        // Fetch classes for this student
+        $sql = "SELECT sc.class_id, c.name FROM " . $this->student_classTable . " sc
+                JOIN " . $this->classesTable . " c ON c.id = sc.class_id
+                WHERE sc.student_id='" . $studentID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        $options = '';
+        while ($rec = mysqli_fetch_assoc($result)) {
+            $cid = $rec['class_id'];
+            $cname = $rec['name'];
+            $selected = (isset($_POST['selClass']) && intval($_POST['selClass']) === (int)$cid) ? 'selected' : '';
+            $options .= "<option value=\"{$cid}\" {$selected}>{$cname}</option>";
+        }
+        return $options;
+    }
+
+    // Get general report info for selected class
+    public function getUser_Report()
+    {
+        if (empty($_POST['selClass'])) {
+            return [];
+        }
+        $classID = intval($_POST['selClass']);
+        $userID = $_SESSION["userid"] ?? 0;
+        // Fetch linked student_id
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) == 0) {
+            return [];
+        }
+        $row = mysqli_fetch_assoc($result);
+        $studentID = $row['student_id'];
+        // Section name (Intake)
+        $sql = "SELECT ss.section AS sSectionName FROM " . $this->sectionsTable . " ss
+                JOIN " . $this->studentTable . " st ON st.section = ss.section_id
+                WHERE st.id='" . $studentID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        $secName = '';
+        if ($result && mysqli_num_rows($result) > 0) {
+            $tmp = mysqli_fetch_assoc($result);
+            $secName = $tmp['sSectionName'];
+        }
+        // Class info
+        $sql = "SELECT name AS programName, start_date FROM " . $this->classesTable . " WHERE id='" . $classID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        $programName = '';
+        $startDate = '';
+        if ($result && mysqli_num_rows($result) > 0) {
+            $tmp = mysqli_fetch_assoc($result);
+            $programName = $tmp['programName'];
+            $startDate = $tmp['start_date'];
+        }
+        // Full name
+        $fullName = '';
+        $sql = "SELECT first_name, last_name FROM " . $this->userTable . " WHERE id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $tmp = mysqli_fetch_assoc($result);
+            $fullName = trim($tmp['first_name'] . ' ' . $tmp['last_name']);
+        }
+        return [
+            'programName'  => $programName,
+            'fullName'     => $fullName,
+            'sSectionName' => $secName,
+            'start_date'   => $startDate
+        ];
+    }
+
+    // Get student grades for selected class
+    public function getUser_Grades()
+    {
+        if (empty($_POST['selClass'])) {
+            return false;
+        }
+        $classID = intval($_POST['selClass']);
+        $userID = $_SESSION["userid"] ?? 0;
+        // Fetch linked student_id
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) == 0) {
+            return false;
+        }
+        $row = mysqli_fetch_assoc($result);
+        $studentID = $row['student_id'];
+        // Fetch grades
+        $sql = "SELECT sc_homework, sc_participation, sc_exam, sc_project, s2_exam, s3_exam
+                FROM " . $this->student_gradesTable . "
+                WHERE student_id='" . $studentID . "' AND class_id='" . $classID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            return mysqli_fetch_assoc($result);
+        }
+        return false;
+    }
     public function editAccount()
     {
         $fileName = '';
