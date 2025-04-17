@@ -2,7 +2,8 @@
 include('class/User.php');
 $user = new User();
 $user->loginStatus();
-$userDetail = $user->getUser();	//formally userDetails
+   // fetch logged-in student's basic user info
+   $userDetail = $user->getUser_Student();
 include('include/header.php');
 ?>
 <title>Student Management System</title>
