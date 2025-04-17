@@ -16,46 +16,46 @@ include('include/header.php');
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
-					<div class="col-md-3">
-						<div class="panel panel-default">
-							<div class="panel-body bk-primary text-light">
-								<div class="stat-panel text-center">
-									<div class="stat-panel-number h1 "><?php echo $user->totalUsers(""); ?></div>
-									<div class="stat-panel-title text-uppercase">Exercises</div>
-								</div>
-							</div>											
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="panel panel-default">
-							<div class="panel-body bk-success text-light">
-								<div class="stat-panel text-center">
-									<div class="stat-panel-number h1 "><?php echo $user->totalUsers('active'); ?></div>
-									<div class="stat-panel-title text-uppercase">Homework</div>
-								</div>
-							</div>											
-						</div>
-					</div>		
-					<div class="col-md-3">
-						<div class="panel panel-default">
-							<div class="panel-body bk-success text-light">
-								<div class="stat-panel text-center">
-									<div class="stat-panel-number h1 "><?php echo $user->totalUsers('pending'); ?></div>
-									<div class="stat-panel-title text-uppercase">Projects</div>
-								</div>
-							</div>											
-						</div>
-					</div>													
-					<div class="col-md-3">
-						<div class="panel panel-default">
-							<div class="panel-body bk-danger text-light">
-								<div class="stat-panel text-center">												
-									<div class="stat-panel-number h1 "><?php echo $user->totalUsers('deleted'); ?></div>
-									<div class="stat-panel-title text-uppercase">Modules</div>
-								</div>
-							</div>											
-						</div>
-					</div>							
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body bk-primary text-light">
+                            <div class="stat-panel text-center">
+                                <div class="stat-panel-number h1 "><?php echo $user->getClassCount(); ?></div>
+                                <div class="stat-panel-title text-uppercase">Classes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body bk-success text-light">
+                            <div class="stat-panel text-center">
+                                <div class="stat-panel-number h1 "><?php echo $user->getAttendanceCount(); ?></div>
+                                <div class="stat-panel-title text-uppercase">Attendance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body bk-info text-light">
+                            <div class="stat-panel text-center">
+                                <div class="stat-panel-number h1 "><?php echo $user->getExamCount(); ?></div>
+                                <div class="stat-panel-title text-uppercase">Exams</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body bk-danger text-light">
+                            <div class="stat-panel text-center">
+                                <div class="stat-panel-number h1 "><?php echo $user->getProjectCount(); ?></div>
+                                <div class="stat-panel-title text-uppercase">Projects</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 				</div>
 			</div>
 		</div>		

@@ -35,6 +35,9 @@ class dbConfig {
 	protected $studentTable = 'sms_students';
 	protected $subjectsTable = 'sms_subjects';
 	//protected $teacherTable = 'sms_teacher';
-	protected $userTable = 'user';
+    protected $userTable = 'user';
+    // Student-class mapping and grades tables
+    protected $student_classTable  = 'sis_student_class';
+    protected $student_gradesTable = 'sis_student_grades';
 }
 ?>

@@ -312,6 +312,93 @@ class User extends Dbconfig
         }
         return false;
     }
+
+    /**
+     * Count of classes the student is enrolled in
+     */
+    public function getClassCount()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        // find student_id
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) === 0) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        $sid = $row['student_id'];
+        // count classes
+        $sql = "SELECT COUNT(*) AS cnt FROM " . $this->student_classTable . " WHERE student_id='" . $sid . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        return intval($row['cnt']);
+    }
+
+    /**
+     * Count of attendance records for the student
+     */
+    public function getAttendanceCount()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) === 0) {
+            return 0;
+        }
+        $sid = mysqli_fetch_assoc($result)['student_id'];
+        $sql = "SELECT COUNT(*) AS cnt FROM " . $this->attendanceTable . " WHERE student_id='" . $sid . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        return intval($row['cnt']);
+    }
+
+    /**
+     * Count of exams taken by the student
+     */
+    public function getExamCount()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) === 0) {
+            return 0;
+        }
+        $sid = mysqli_fetch_assoc($result)['student_id'];
+        $sql = "SELECT COUNT(*) AS cnt FROM " . $this->student_gradesTable . " WHERE student_id='" . $sid . "' AND sc_exam_date IS NOT NULL";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        return intval($row['cnt']);
+    }
+
+    /**
+     * Count of projects submitted by the student
+     */
+    public function getProjectCount()
+    {
+        $userID = $_SESSION["userid"] ?? 0;
+        $sql = "SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $userID . "'";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result || mysqli_num_rows($result) === 0) {
+            return 0;
+        }
+        $sid = mysqli_fetch_assoc($result)['student_id'];
+        $sql = "SELECT COUNT(*) AS cnt FROM " . $this->student_gradesTable . " WHERE student_id='" . $sid . "' AND sc_project IS NOT NULL";
+        $result = mysqli_query($this->dbConnect, $sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = mysqli_fetch_assoc($result);
+        return intval($row['cnt']);
+    }
     public function editAccount()
     {
         $fileName = '';
