@@ -2,10 +2,9 @@
 session_start();
 //set_include_path( get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT'] );
 //require('config.php');
+// Include main configuration
+include_once(__DIR__ . '/../../config.php');
 	//echo $_SERVER['DOCUMENT_ROOT'];
-	$docroot="C:\shared\SIS1.01";	//$path = $_SERVER['DOCUMENT_ROOT'];
-	$path= "\config.php";
-	include_once($docroot.$path);
 	
 	//echo get_include_path();
 	//$J=strripos($_SERVER['HTTP_REFERER'],"/");

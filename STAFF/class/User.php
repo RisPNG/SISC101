@@ -1,10 +1,9 @@
 <?php
 session_start();
 //require('include/config.php');
+// Include main configuration
+include_once(__DIR__ . '/../../config.php');
 	//echo $_SERVER['DOCUMENT_ROOT'];
-	$docroot="C:\shared\SIS1.01";	//$path = $_SERVER['DOCUMENT_ROOT'];
-	$path= "\config.php";
-	include_once($docroot.$path);
 
 class User extends Dbconfig {
     //protected $hostName;	//hostName is local name, from config.php is serverName
