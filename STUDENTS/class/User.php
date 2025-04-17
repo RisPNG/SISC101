@@ -35,7 +35,8 @@ class User extends Dbconfig
             die('Error in query: ' . mysqli_error($this->dbConnect));
         }
         $data = array();
-        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+        // Fetch associative array using mysqli
+        while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
         }
         return $data;
