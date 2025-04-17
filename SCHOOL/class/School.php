@@ -176,7 +176,6 @@ class School extends Dbconfig {
 			$sqlQuery .= " LEFT JOIN ".$this->classesTable." as c ON s.class = c.id
 			LEFT JOIN ".$this->sectionsTable." as se ON s.section = se.section_id ";
 		$sqlQuery .= ' WHERE 1=1 ';
-		$sqlQuery .= ' AND s.roll_no>0 ';	
 		if(!empty($_POST["search"]["value"])){
 			$sqlQuery .= ' AND (s.id LIKE "%'.$_POST["search"]["value"].'%" ';
 			$sqlQuery .= ' OR s.name LIKE "%'.$_POST["search"]["value"].'%" ';
