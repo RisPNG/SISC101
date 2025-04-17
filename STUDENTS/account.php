@@ -41,8 +41,9 @@ include('include/header.php');
 						<td><?php echo $userDetail['mobile']; ?></td>
 					</tr>
 					<tr>
-						<th>Designation</th>
-						<td><?php echo $userDetail['designation_name']; ?></td>
+            <th>Designation</th>
+            <!-- stored as numeric code in user.designation -->
+            <td><?php echo htmlspecialchars($userDetail['designation'] ?? ''); ?></td>
 					</tr>		
 				</table>
 			</td>
