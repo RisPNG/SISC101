@@ -59,10 +59,13 @@ include('inc/header.php');
 			<?php 
                // Connect to configured database (sms101)
                $conn = new mysqli("localhost","root","passwd","sms101");
-               $sql = "SELECT * FROM sam_teacherinfo";
+               // Fetch from sis_teacher table (no sam_teacherinfo in this DB)
+               $sql = "SELECT t.teacher_id AS Teacher_ID, t.teacher AS Name, p.program_name AS Subject
+                       FROM sis_teacher t
+                       LEFT JOIN sis_programs p ON t.program_id = p.program_id";
                $result = $conn->query($sql);
 					//$count=0;
-               if ($result -> num_rows >  0) {
+               if ($result && $result->num_rows > 0) {
 				  
                  while ($row = $result->fetch_assoc()) 
 				 {
@@ -76,10 +79,10 @@ include('inc/header.php');
 						<td><?php echo $row['Teacher_ID']; ?></td>
 						<td><?php echo $row['Name']; ?></td>
 						<td><?php echo $row['Subject']; ?></td>
-						<td><?php echo $row['Competencies']; ?></td>
-						<td><?php echo $row['Status']; ?></td>
-						<td><?php echo $row['Working_Time']; ?></td>
-						<td><?php echo $row['Joining_Date']; ?></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
 					 	<td><button type="button" class ="btn btn-warning btn-sm editbtn">EDIT</button></td>
 						<td><button type="button" class ="btn btn-danger btn-sm deletebtn">DELETE</button></td>
                     </tr>
