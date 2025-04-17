@@ -60,7 +60,7 @@ include('inc/header.php');
                // Connect to configured database (sms101)
                $conn = new mysqli("localhost","root","passwd","sms101");
                // Fetch from sis_teacher table (no sam_teacherinfo in this DB)
-               $sql = "SELECT t.teacher_id AS Teacher_ID, t.teacher AS Name, p.program_name AS Subject
+               $sql = "SELECT t.teacher_id AS Teacher_ID, t.teacher AS Name, p.program AS Subject
                        FROM sis_teacher t
                        LEFT JOIN sis_programs p ON t.program_id = p.program_id";
                $result = $conn->query($sql);
