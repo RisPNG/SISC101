@@ -60,6 +60,23 @@ class User extends Dbconfig
         $row = mysqli_fetch_assoc($result);
         return $row['total'] ?? 0;
     }
+    /**
+     * Get designation options for select dropdown.
+     *
+     * @return string HTML <option> elements for designations.
+     */
+    public function getDesignationOptions()
+    {
+        $options = '';
+        $sql = "SELECT designation_id, designation_name FROM " . $this->designationTable . " ORDER BY designation_id";
+        $records = $this->getData($sql);
+        foreach ($records as $row) {
+            $id   = htmlspecialchars($row['designation_id'], ENT_QUOTES, 'UTF-8');
+            $name = htmlspecialchars($row['designation_name'], ENT_QUOTES, 'UTF-8');
+            $options .= "<option value=\"{$id}\">{$name}</option>";
+        }
+        return $options;
+    }
     public function loginStatus()
     {
         if (empty($_SESSION["userid"])) {
