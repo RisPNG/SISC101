@@ -15,7 +15,7 @@ class dbConfig {
     protected $serverName = 'localhost';
     protected $userName = 'root';
     protected $password = 'passwd';
-    protected $dbName = 'sms';
+    protected $dbName = 'sms101';
 
 	protected $hostName = 'localhost'; //hostName is local name, from config.php is serverName
 	
