@@ -57,7 +57,8 @@ include('inc/header.php');
                                             </thead>
                                             <tbody>
 			<?php 
-               $conn = new mysqli("localhost","root","passwd","sms");
+               // Connect to configured database (sms101)
+               $conn = new mysqli("localhost","root","passwd","sms101");
                $sql = "SELECT * FROM sam_teacherinfo";
                $result = $conn->query($sql);
 					//$count=0;
