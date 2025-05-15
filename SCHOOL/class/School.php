@@ -254,13 +254,18 @@ class School extends Dbconfig {
 					if ( $users = mysqli_fetch_assoc($result) ) {
 						$insertQuery = "INSERT INTO ".$this->user_studentTable."(user_id, student_id) 
 							VALUES ('".$users['id']."', '".$students["id"]."')";
-						$queryC=mysqli_query($this->dbConnect, $insertQuery);
+            $queryC = mysqli_query($this->dbConnect, $insertQuery);
+            // Insert class mapping for the new student
+            $queryD = mysqli_query($this->dbConnect,
+                "INSERT INTO " . $this->student_classTable .
+                " (student_id, class_id, status) VALUES ('" . $students['id'] . "', '" . $_POST['classid'] . "', 'Current')"
+            );
 					}
 				}			
 			}
 			
 			//$userSaved = mysqli_query($this->dbConnect, $insertQuery);
-			$userSaved = ($queryA && $queryB && $queryC);
+					$userSaved = ($queryA && $queryB && $queryC && isset($queryD) && $queryD);
 		}
 	}
 
@@ -295,7 +300,17 @@ class School extends Dbconfig {
 			WHERE id = (SELECT user_id FROM ".$this->user_studentTable." WHERE student_id='".$_POST["studentid"]."')";
 			mysqli_query($this->dbConnect, $updateQueryB);
 			
-			$isUpdated = ($updateQueryA && $updateQueryB);		
+			$isUpdated = ($updateQueryA && $updateQueryB);
+            // Update class mapping in sis_student_class
+            mysqli_query(
+                $this->dbConnect,
+                "DELETE FROM " . $this->student_classTable . " WHERE student_id = '" . $_POST['studentid'] . "'"
+            );
+            mysqli_query(
+                $this->dbConnect,
+                "INSERT INTO " . $this->student_classTable .
+                " (student_id, class_id, status) VALUES ('" . $_POST['studentid'] . "', '" . $_POST['classid'] . "', 'Current')"
+            );
 		}	
 	}	
 	public function deleteStudent(){
