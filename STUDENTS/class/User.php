@@ -220,7 +220,40 @@ class User extends Dbconfig
     public function getUser_Student()
     {
         $userID = $_SESSION["userid"] ?? 0;
-        $sql = "SELECT * FROM " . $this->userTable . " WHERE id='" . $userID . "'";
+        // Fetch user info along with student details and current class/section
+        // Include designation name/id from designation table
+        $sql = "SELECT u.*, 
+                    d.designation_id AS designation_id,
+                    d.designation_name AS designation_name,
+                    s.id AS student_id,
+                    s.admission_no,
+                    s.roll_no,
+                    s.academic_year,
+                    s.admission_date,
+                    s.dob,
+                    s.photo,
+                    s.current_address,
+                    s.permanent_address,
+                    s.father_name,
+                    s.father_mobile,
+                    s.father_occupation,
+                    s.mother_name,
+                    s.mother_mobile,
+                    s.stream,
+                    s.hostel,
+                    s.category,
+                    sc.class_id,
+                    cl.name AS class_name,
+                    sec.section_id,
+                    sec.section AS section_name
+                FROM " . $this->userTable . " AS u
+                LEFT JOIN " . $this->designationTable . " AS d ON d.designation_id = u.designation
+                LEFT JOIN " . $this->user_studentTable . " AS us ON us.user_id = u.id
+                LEFT JOIN " . $this->studentTable . " AS s ON s.id = us.student_id
+                LEFT JOIN " . $this->student_classTable . " AS sc ON sc.student_id = s.id AND sc.status = 'Current'
+                LEFT JOIN " . $this->classesTable . " AS cl ON cl.id = sc.class_id
+                LEFT JOIN " . $this->sectionsTable . " AS sec ON sec.section_id = cl.section
+                WHERE u.id = '" . $userID . "'";
         $result = mysqli_query($this->dbConnect, $sql);
         return mysqli_fetch_assoc($result);
     }
@@ -458,6 +491,25 @@ class User extends Dbconfig
                     SET name = '" . $_POST["firstname"] . "', email = '" . $_POST["email"] . "', mobile = '" . $_POST["mobile"] . "' , gender = '" . $_POST["gender"] . "' $photoUpdate
                     WHERE id = (SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $_SESSION["userid"] . "')";
             mysqli_query($this->dbConnect, $updateQueryB);
+            // Update additional student profile fields
+            $updateQueryC = "UPDATE " . $this->studentTable .
+                " SET current_address = '" . ($_POST['current_address'] ?? '') . "'" .
+                ", permanent_address = '" . ($_POST['permanent_address'] ?? '') . "'" .
+                ", father_name = '" . ($_POST['father_name'] ?? '') . "'" .
+                ", father_mobile = '" . ($_POST['father_mobile'] ?? '') . "'" .
+                ", father_occupation = '" . ($_POST['father_occupation'] ?? '') . "'" .
+                ", mother_name = '" . ($_POST['mother_name'] ?? '') . "'" .
+                ", mother_mobile = '" . ($_POST['mother_mobile'] ?? '') . "'" .
+                ", dob = '" . ($_POST['dob'] ?? '') . "'" .
+                ", admission_no = '" . ($_POST['admission_no'] ?? '') . "'" .
+                ", roll_no = '" . ($_POST['roll_no'] ?? '') . "'" .
+                ", academic_year = '" . ($_POST['academic_year'] ?? '') . "'" .
+                ", admission_date = '" . ($_POST['admission_date'] ?? '') . "'" .
+                ", stream = '" . ($_POST['stream'] ?? '') . "'" .
+                ", hostel = '" . ($_POST['hostel'] ?? '') . "'" .
+                ", category = '" . ($_POST['category'] ?? '') . "'" .
+                " WHERE id = (SELECT student_id FROM " . $this->user_studentTable . " WHERE user_id='" . $_SESSION['userid'] . "')";
+            mysqli_query($this->dbConnect, $updateQueryC);
 
             $isUpdated = ($updateQueryA && $updateQueryB);
             if ($isUpdated) {

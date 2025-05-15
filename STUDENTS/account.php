@@ -40,12 +40,85 @@ include('include/header.php');
 						<th>Mobile</th>
 						<td><?php echo $userDetail['mobile']; ?></td>
 					</tr>
-					<tr>
-            <th>Designation</th>
-            <!-- stored as numeric code in user.designation -->
-            <td><?php echo htmlspecialchars($userDetail['designation'] ?? ''); ?></td>
-					</tr>		
-				</table>
+            <tr>
+                <th>Designation</th>
+                <td><?php echo htmlspecialchars($userDetail['designation_name'] ?? $userDetail['designation'] ?? ''); ?></td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td><?php echo htmlspecialchars($userDetail['status'] ?? ''); ?></td>
+            </tr>		
+            <!-- Student profile details -->
+            <tr>
+                <th>Admission No</th>
+                <td><?php echo $userDetail['admission_no'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Roll No</th>
+                <td><?php echo $userDetail['roll_no'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Academic Year</th>
+                <td><?php echo $userDetail['academic_year'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Admission Date</th>
+                <td><?php echo $userDetail['admission_date'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Date of Birth</th>
+                <td><?php echo $userDetail['dob'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Class</th>
+                <td><?php echo $userDetail['class_name'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Section</th>
+                <td><?php echo $userDetail['section_name'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Current Address</th>
+                <td><?php echo $userDetail['current_address'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Permanent Address</th>
+                <td><?php echo $userDetail['permanent_address'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Father's Name</th>
+                <td><?php echo $userDetail['father_name'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Father's Mobile</th>
+                <td><?php echo $userDetail['father_mobile'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Father's Occupation</th>
+                <td><?php echo $userDetail['father_occupation'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Mother's Name</th>
+                <td><?php echo $userDetail['mother_name'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Mother's Mobile</th>
+                <td><?php echo $userDetail['mother_mobile'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Stream</th>
+                <td><?php echo $userDetail['stream'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Hostel</th>
+                <td><?php echo $userDetail['hostel'] ?? ''; ?></td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td><?php echo $userDetail['category'] ?? ''; ?></td>
+            </tr>
+            <!-- End student profile details -->
+        </table>
 			</td>
 		</tr>
 		</table>

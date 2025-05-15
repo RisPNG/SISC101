@@ -36,10 +36,10 @@
 						<th class="pull-right" style="color:#999999">Mobile</th><!--- 00FF00 -->
 						<td><?php echo $userDetail['mobile'] ?? ''; ?></td>
 					</tr>
-					<tr>
-						<th class="pull-right" style="color:#999999">Designation</th><!--- 00FFFF -->
-						<td><?php echo $userDetail['designation_name'] ?? ''; ?></td>
-					</tr>
+				<tr>
+					<th class="pull-right" style="color:#999999">Designation</th><!--- 00FFFF -->
+					<td><?php echo htmlspecialchars($userDetail['designation_name'] ?? $userDetail['designation'] ?? ''); ?></td>
+				</tr>
 					<tr>
 						<th class="pull-right" style="color:#999999">Status</th><!--- 0000FF -->
 						<td><?php echo $userDetail['status'] ?? ''; ?></td>
@@ -83,7 +83,35 @@
 					<tr>
 						<th class="pull-right" style="color:#999999">Category</th><!--- FF7F00 -->
 						<td><?php echo $userDetail['category'] ?? ''; ?></td>
-					</tr>					
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Admission No</th>
+						<td><?php echo $userDetail['admission_no'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Roll No</th>
+						<td><?php echo $userDetail['roll_no'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Academic Year</th>
+						<td><?php echo $userDetail['academic_year'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Admission Date</th>
+						<td><?php echo $userDetail['admission_date'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Date of Birth</th>
+						<td><?php echo $userDetail['dob'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Class</th>
+						<td><?php echo $userDetail['class_name'] ?? ''; ?></td>
+					</tr>
+					<tr>
+						<th class="pull-right" style="color:#999999">Section</th>
+						<td><?php echo $userDetail['section_name'] ?? ''; ?></td>
+					</tr>
 				</table>
 			</td>
 		</tr>
