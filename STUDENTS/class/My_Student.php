@@ -55,8 +55,7 @@ class Kelas extends Dbconfig {
 , u.id as uID, s.id as sID, c.id as cID, m.subject_id as mID, i.section_id as iID, t.teacher_id as tID, ds.designation_name as Designation, u.type as Type, ss.start as sTime	
 */
 
-	$sqlQuery = "select sc.student_id as ID,(select name from ".$this->classesTable." where id=sc.class_id) as Class,(select session from ".$this->sessionsTable." where session_id=(select session_id from ".$this->class_sessionTable." where class_id=sc.class_id)) as Session,(select subject from ".$this->subjectsTable." where subject_id=(select subject_id from ".$this->class_subjectTable." where class_id=sc.class_id)) as Subject,(select section from ".$this->sectionsTable." where section_id=(select section from ".$this->classesTable." where id=sc.class_id)) as Section,(select teacher from ".$this->teacherTable." where teacher_id=(select teacher_id from ".$this->classesTable." where id=sc.class_id)) as Teacher,u.status as Status 
-, u.id as uID, s.id as sID, c.id as cID, m.subject_id as mID, i.section_id as iID, t.teacher_id as tID, ds.designation_name as Designation, u.type as Type, (select start from ".$this->sessionsTable." where session_id=(select session_id from ".$this->class_sessionTable." where class_id=sc.class_id)) as sTime
+$sqlQuery = "select sc.student_id as ID,(select name from ".$this->classesTable." where id=sc.class_id) as Class,(select session from ".$this->sessionsTable." where session_id=(select session_id from ".$this->class_sessionTable." where class_id=sc.class_id)) as Session,(select subject from ".$this->subjectsTable." where subject_id=(select subject_id from ".$this->class_subjectTable." where class_id=sc.class_id)) as Subject,(select section from ".$this->sectionsTable." where section_id=(select section from ".$this->classesTable." where id=sc.class_id)) as Section,(select teacher from ".$this->teacherTable." where teacher_id=(select teacher_id from ".$this->classesTable." where id=sc.class_id)) as Teacher,u.status as Status, u.id as uID, s.id as sID, c.id as cID, m.subject_id as mID, i.section_id as iID, t.teacher_id as tID, ds.designation_name as Designation, u.type as Type, (select start from ".$this->sessionsTable." where session_id=(select session_id from ".$this->class_sessionTable." where class_id=sc.class_id)) as sTime, (select check_in from ".$this->attendanceTable." where student_id=sc.student_id and class_id=sc.class_id and section_id=sc.section_id and attendance_date=CURDATE()) as checkIn, (select check_out from ".$this->attendanceTable." where student_id=sc.student_id and class_id=sc.class_id and section_id=sc.section_id and attendance_date=CURDATE()) as checkOut
 
 from ".$this->userTable." as u 
 inner join ".$this->designationTable." as ds 
@@ -172,12 +171,10 @@ if(!empty($_POST["search"]["value"])){
 				$spanIDs .='<span style="display:none" id="Designation">'.$kelas['Designation'].'</span>';
 				$spanIDs .='<span style="display:none" id="Type">'.$kelas['Type'].'</span>';
 				//$spanIDs .='<span style="display:block" id="startTime">'.strrchr($kelas['sTime']," ").'</span>';	//strtok is for string before " "		
-				$spanIDs .='<span style="display:block" id="startTime">'.substr($kelas['sTime'],0,5).'</span>';	
-
-			$kelasRows[] = $spanIDs;//'Check:'.$spanIDs;		
-
-
-			
+				$spanIDs .='<span style="display:block" id="startTime">'.substr($kelas['sTime'],0,5).'</span>';
+			$kelasRows[] = $spanIDs;
+			$kelasRows[] = $kelas['checkIn'];
+			$kelasRows[] = $kelas['checkOut'];
 				$twoButtons = '<button type="button" name="checkIn" id="checkIn" class="btn btn-success btn-xs update">&nbsp;In&nbsp;</button>&nbsp;';
 				$twoButtons .= '<button type="button" name="checkOut" id="checkOut" class="btn btn-info btn-xs delete">Out&nbsp;</button>';
 			$kelasRows[] = $twoButtons;

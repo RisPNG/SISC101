@@ -53,7 +53,9 @@ include('include/header.php');
 						<th>Teacher</th>
 						<th>Status</th>
 						<th>Start&nbsp;Time</th>
-						<th colspan="1">Attendance</th>
+						<th>Check&nbsp;In</th>
+						<th>Check&nbsp;Out</th>
+						<th>Attendance</th>
 					</tr>
 				</thead>
 			</table>
