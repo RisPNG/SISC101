@@ -24,16 +24,21 @@ $(document).ready(function(){
 		"serverSide":true,
 		"order":[],
 		"ajax":{
-			url:"my_action.php", // This should point to the PHP file with getKelasList and addKelas
+			url:"my_action.php",
 			type:"POST",
-			data: function(d) { // Send action for listKelas
+			data: function(d) {
                 d.action = 'listKelas';
             },
-			dataType:"json"
+			dataType:"json",
+            error: function (xhr, error, thrown) { // More detailed error reporting
+                console.error("DataTables AJAX error:", error, thrown);
+                console.error("ResponseText:", xhr.responseText);
+                alert("Error fetching data. Check console for details. Response: " + xhr.responseText.substring(0, 500) + "..."); // Show part of the error
+            }
 		},
 		"columnDefs":[
-			{ "targets":[0, 1, 8, 9, 10, 11], "orderable":false }, // No, ID, Start Time, Checked In, Checked Out, Actions
-			{ "targets": [1], "visible": false } // Hide Class ID column if not needed for display
+			{ "targets":[0, 1, 8, 9, 10, 11], "orderable":false },
+			{ "targets": [1], "visible": false }
 		],
 		"pageLength": 10
 	});
@@ -45,37 +50,33 @@ $(document).ready(function(){
         $('#classid').val($button.data('cid'));
         $('#sectionid').val($button.data('iid'));
 
-        var classStartTimeStr = $button.data('starttime'); // HH:MM format
+        var classStartTimeStr = $button.data('starttime');
 
-        getDateTime(); // Sets global currDate, currTime
+        getDateTime();
 
         $('#attendancedate').val(currDate);
         $('#attendancetime').val(currTime);
-        $('#checkedInOut').val('1'); // 1 for Check In
+        $('#checkedInOut').val('1');
 
-        var attendanceStatusVal = "1"; // 1 = Present
+        var attendanceStatusVal = "1";
         var scoreVal = 1.0;
 
         if (classStartTimeStr && classStartTimeStr !== 'N/A') {
-            var now = new Date(); // Current date and time for comparison
+            var now = new Date();
             var classStartTimeParts = classStartTimeStr.split(':');
-
-            // Create a date object for class start time ON THE CURRENT DAY
             var classStartDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(classStartTimeParts[0]), parseInt(classStartTimeParts[1]), 0);
-
-            // Add 5 minutes grace period
             var classStartGracePeriod = new Date(classStartDateTime.getTime() + 5 * 60000);
 
             if (now > classStartGracePeriod) {
-                attendanceStatusVal = "2"; // 2 = Late
-                scoreVal = parseFloat((2.0/3.0).toFixed(2)); // Keep score consistent
+                attendanceStatusVal = "2";
+                scoreVal = parseFloat((2.0/3.0).toFixed(2));
             }
         }
         $('#attendancestatus').val(attendanceStatusVal);
         $('#score').val(scoreVal);
 
         if(confirm("Are you sure you want to Check In for this class?\n\nDate: "+currDate+"\nTime: "+currTime)) {
-            $("#attnForm").submit(); // Trigger form submission
+            $("#attnForm").submit();
         }
     });
 
@@ -86,70 +87,74 @@ $(document).ready(function(){
         $('#classid').val($button.data('cid'));
         $('#sectionid').val($button.data('iid'));
 
-        getDateTime(); // Sets global currDate, currTime
+        getDateTime();
 
         $('#attendancedate').val(currDate);
-        $('#attendancetime').val(currTime); // This is the checkout time
-        $('#checkedInOut').val('2'); // 2 for Check Out
-        
-        // For checkout, attendance_status and score might not need to be re-evaluated or can be set to a default
-        // The PHP side for check-out primarily updates check_out time.
-        // If you need to send these, ensure they are appropriate.
-        $('#attendancestatus').val("1"); // Or fetch existing status if needed
-        $('#score').val("1.0"); // Or fetch existing score
+        $('#attendancetime').val(currTime);
+        $('#checkedInOut').val('2');
+        $('#attendancestatus').val("1"); // Default, actual status is from check-in
+        $('#score').val("1.0"); // Default, actual score is from check-in
 
         if(confirm("Are you sure you want to Check Out for this class?\n\nDate: "+currDate+"\nTime: "+currTime)) {
-            $("#attnForm").submit(); // Trigger form submission
+            $("#attnForm").submit();
         }
     });
 
-	// Handles the actual form submission via AJAX
 	$("#attnForm").submit(function(event) {
-		event.preventDefault(); // Prevent default browser submission
-		$('#addKelas').prop('disabled', true); // Disable trigger if it were visible
+		event.preventDefault();
+		$('#addKelas').prop('disabled', true);
 
 		var formData = $(this).serialize();
-        // The form already includes <input type="hidden" name="action" id="formAction" value="addKelas">
-        // So, formData string will contain action=addKelas
 
 		$.ajax({
-			url: "my_action.php", // Ensure this is the correct endpoint
+			url: "my_action.php",
 			method: "POST",
 			data: formData,
+            dataType: "json", // Expect JSON response from addKelas action too
 			success:function(data){
-                // Optionally display a success message
-				// $('#message').text('Attendance saved successfully!').removeClass('hidden').addClass('alert-success');
-				kelasData.ajax.reload(); // Reload DataTable to reflect changes
+                if(data.status === 'success') {
+                    // alert(data.message || 'Attendance saved successfully!'); // Optional success alert
+                } else {
+                    alert('Error: ' + (data.message || 'Could not save attendance.'));
+                }
+				kelasData.ajax.reload();
 			},
             error: function(jqXHR, textStatus, errorThrown) {
-                // Optionally display an error message
-                // $('#message').text('Error saving attendance: ' + errorThrown).removeClass('hidden').addClass('alert-danger');
-                console.error("Attendance save error: ", textStatus, errorThrown);
-                kelasData.ajax.reload(); // Still reload, server might have partial state
+                console.error("Attendance save AJAX error: ", textStatus, errorThrown);
+                console.error("ResponseText:", jqXHR.responseText);
+                alert("Error saving attendance. Check console for details. Response: " + jqXHR.responseText.substring(0, 500) + "...");
+                kelasData.ajax.reload(); // Still reload, server might have partial state or to clear pending UI
             },
             complete: function() {
-                $('#addKelas').prop('disabled', false); // Re-enable if it were visible
+                $('#addKelas').prop('disabled', false);
             }
 		});
 	});
 
-	// User modal form submission (for editing user details - existing logic)
-	// Ensure my_action.php handles 'updateUser' action if this modal is used.
 	$(document).on('submit','#userForm', function(event){
 		event.preventDefault();
 		$('#save').attr('disabled','disabled');
-		var formData = $(this).serialize(); // This form has action_user_modal with value updateUser
+		var formData = $(this).serialize();
 		$.ajax({
-			url:"my_action.php", // Check if my_action.php handles updateUser
+			url:"my_action.php",
 			method:"POST",
 			data:formData,
+            dataType: "json", // Expect JSON
 			success:function(data){
-				$('#userForm')[0].reset();
-				$('#userModal').modal('hide');
-				$('#save').attr('disabled', false);
-				// Consider if kelasData.ajax.reload(); is needed here.
-                // If user details affect the attendance list display (e.g. status), then yes.
-			}
+                if(data.status === 'success') {
+				    $('#userForm')[0].reset();
+				    $('#userModal').modal('hide');
+                } else {
+                    alert("Error updating user: " + (data.message || "Unknown error."));
+                }
+			},
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("User update AJAX error: ", textStatus, errorThrown);
+                alert("Error updating user. Check console.");
+            },
+            complete: function() {
+                $('#save').attr('disabled', false);
+            }
 		});
 	});
 });
