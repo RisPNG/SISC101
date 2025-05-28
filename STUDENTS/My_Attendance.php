@@ -3,7 +3,7 @@
 
 // require_once __DIR__ . '/../include/config.php'; // This path assumes My_Student.php is in 'class' and config.php is in 'include'
 
-class Kelas extends Dbconfig {
+class Kelas extends dbConfig {
     private $userTable;
     private $designationTable;
     private $user_studentTable;
