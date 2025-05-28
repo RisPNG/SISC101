@@ -29,6 +29,7 @@
         <li><a href="My_Class.php"><i class="fa fa-tags"></i> My Class</a></li>
 		<li><a href="My_Attendance.php"><i class="fa fa-tags"></i> My Attendance</a></li>
         <li><a href="My_ReportCard.php"><i class="fa fa-tags"></i> My Report Card</a></li>
-		<!-- <li><a href="kai_exam.php"><i class="fa fa-tags"></i> My Exam</a></li> -->        
-	</ul>
+        <!-- <li><a href="kai_exam.php"><i class="fa fa-tags"></i> My Exam</a></li> -->
+        <li><a href="Study_Planner.php"><i class="fa fa-calendar-check-o"></i> Study Planner</a></li>
+    </ul>
 </div>
