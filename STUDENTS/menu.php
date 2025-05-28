@@ -31,6 +31,7 @@
         <li><a href="My_ReportCard.php"><i class="fa fa-tags"></i> My Report Card</a></li>
         <li><a href="gpa_calculator.php"><i class="fa fa-calculator"></i> GPA Calculator</a></li>
         <li><a href="pomodoro.php"><i class="fa fa-clock-o"></i> Pomodoro Timer</a></li>
+        <li><a href="calendar.php"><i class="fa fa-calendar"></i> Holiday Calendar</a></li>
 		<!-- <li><a href="kai_exam.php"><i class="fa fa-tags"></i> My Exam</a></li> -->        
 	</ul>
 </div>
